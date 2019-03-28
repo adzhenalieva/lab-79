@@ -33,6 +33,16 @@ const createRouter =connection => {
             res.send({message: "Success"});
         });
     });
+
+    router.delete('/:id', (req, res) => {
+        connection.query('DELETE FROM `categories` WHERE `id` = ?', req.params.id, (error) => {
+            if (error) {
+                res.status(500).send({error: error.sqlMessage});
+            }
+            res.send({message: "Success"});
+        });
+    });
+
     return router;
 };
 

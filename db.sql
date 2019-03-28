@@ -28,13 +28,13 @@ CREATE TABLE `items` (
   CONSTRAINT `category_id`
     FOREIGN KEY (`category_id`)
     REFERENCES `categories` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
   CONSTRAINT `place_id`
     FOREIGN KEY (`place_id`)
     REFERENCES `places` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE);
 
 
 INSERT INTO `categories` (`category`, `description`)
