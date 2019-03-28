@@ -34,6 +34,17 @@ const createRouter =connection => {
         });
     });
 
+    router.put('/:id', (req, res) => {
+        const category = req.body;
+
+        connection.query('UPDATE `categories` SET `category` = ?, `description` = ? WHERE `id` = ?', [category.category, category.description, req.params.id], (error) => {
+            if (error) {
+                res.status(500).send({error: 'Database error'});
+            }
+            res.send({message: "Success"});
+        });
+    });
+
     router.delete('/:id', (req, res) => {
         connection.query('DELETE FROM `categories` WHERE `id` = ?', req.params.id, (error) => {
             if (error) {

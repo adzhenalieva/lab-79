@@ -43,6 +43,17 @@ const createRouter = connection => {
         });
     });
 
+    router.put('/:id', (req, res) => {
+        const place = req.body;
+
+        connection.query('UPDATE `places` SET `place` = ?, `description` = ? WHERE `id` = ?', [place.place, place.description, req.params.id], (error) => {
+            if (error) {
+                res.status(500).send({error: 'Database error'});
+            }
+            res.send({message: "Success"});
+        });
+    });
+
     return router;
 };
 

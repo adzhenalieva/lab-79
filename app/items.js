@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const nanoid = require('nanoid');
 const config = require('../config');
 const router = express.Router();
 
@@ -36,14 +37,13 @@ const createRouter = connection => {
             } else {
                 res.status(404).send({error: "Not found"});
             }
-
         });
-
     });
-    router.post('/', (req, res) => {
+
+    router.post('/', upload.single('image'), (req, res) => {
         const item = req.body;
 
-        if(req.file){
+        if (req.file) {
             item.image = req.file.filename;
         }
 
@@ -54,6 +54,26 @@ const createRouter = connection => {
             res.send({message: "Success"});
         });
 
+    });
+
+    router.put('/:id', upload.single('image'), (req, res) => {
+        const item = req.body;
+
+        let query = 'UPDATE `items` SET `item` = ?, `category_id` = ?, `place_id` = ?, `description` = ? WHERE `id` = ?';
+        let data = [item.item, item.category_id, item.place_id, item.description, req.params.id];
+
+        if (req.file) {
+            item.image = req.file.filename;
+            query = 'UPDATE `items` SET `image` = ?, `item` = ?, `category_id` = ?, `place_id` = ?, `description` = ? WHERE `id` = ?';
+            data.unshift(item.image);
+        }
+
+        connection.query(query, data, (error) => {
+            if (error) {
+                res.status(500).send({error: 'Database error'});
+            }
+            res.send({message: "Success"});
+        });
     });
 
     router.delete('/:id', (req, res) => {
@@ -67,7 +87,6 @@ const createRouter = connection => {
 
     return router;
 };
-
 
 
 module.exports = createRouter;
