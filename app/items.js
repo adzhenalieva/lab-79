@@ -18,7 +18,7 @@ const upload = multer({storage});
 
 const createRouter = connection => {
     router.get('/', (req, res) => {
-        connection.query('SELECT * FROM `items`', (error, results) => {
+        connection.query('SELECT `id`, `category_id`, `place_id`, `item` FROM `items`', (error, results) => {
             if (error) {
                 res.status(500).send({error: 'Database error'});
             }

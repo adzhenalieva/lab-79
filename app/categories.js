@@ -3,7 +3,7 @@ const router = express.Router();
 
 const createRouter =connection => {
     router.get('/', (req, res) => {
-        connection.query('SELECT * FROM `categories`', (error, results) => {
+        connection.query('SELECT `id`, `category` FROM `categories`', (error, results) => {
             if (error) {
                 res.status(500).send({error: 'Database error'});
             }
