@@ -47,7 +47,7 @@ const createRouter = connection => {
             item.image = req.file.filename;
         }
 
-        connection.query('INSERT INTO `items` (`item`, `category_id`, `place_id`, `description`, `image`, `date`) VALUES (?, ?, ?, ?, ?, ?)', [item.item, item.category_id, item.place_id, item.description, item.image, item.date], (error) => {
+        connection.query('INSERT INTO `items` (`item`, `category_id`, `place_id`, `description`, `image`) VALUES (?, ?, ?, ?, ?)', [item.item, item.category_id, item.place_id, item.description, item.image], (error) => {
             if (error) {
                 res.status(500).send({error: 'Database error'});
             }
